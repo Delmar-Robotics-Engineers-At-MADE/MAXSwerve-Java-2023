@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.Constants.AutoConstants;
@@ -36,7 +37,10 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  Joystick m_driverController = new Joystick(OIConstants.kDriverControllerPort);
+
+  // The opperator's controller
+  Joystick m_opperatorController = new Joystick(OIConstants.kOpperatorControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -51,12 +55,25 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
-                MathUtil.applyDeadband(-m_driverController.getLeftY(), 0.06),
-                MathUtil.applyDeadband(-m_driverController.getLeftX(), 0.06),
-                MathUtil.applyDeadband(-m_driverController.getRightX(), 0.06),
+                MathUtil.applyDeadband(-m_driverController.getRawAxis(1), 0.06),
+                MathUtil.applyDeadband(-m_driverController.getRawAxis(0), 0.06),
+                MathUtil.applyDeadband(-m_driverController.getRawAxis(2), 0.06),
                 true),
             m_robotDrive));
+
+    // m_robotDrive.setDefaultCommand(
+    //     // The left stick controls translation of the robot.
+    //     // Turning is controlled by the X axis of the right stick.
+    //     new RunCommand(
+    //         () -> m_robotDrive.drive(
+    //             MathUtil.applyDeadband(-m_opperatorController.getRawAxis(1), 0.06),
+    //             MathUtil.applyDeadband(-m_opperatorController.getRawAxis(0), 0.06),
+    //             MathUtil.applyDeadband(-m_opperatorController.getRawAxis(2), 0.06),
+    //             false),
+    //         m_robotDrive));
   }
+
+  
 
   /**
    * Use this method to define your button->command mappings. Buttons can be
