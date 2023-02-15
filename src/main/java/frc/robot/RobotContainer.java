@@ -60,17 +60,16 @@ public class RobotContainer {
                 MathUtil.applyDeadband(-m_driverController.getRawAxis(2), 0.06),
                 true),
             m_robotDrive));
-
-    // m_robotDrive.setDefaultCommand(
-    //     // The left stick controls translation of the robot.
-    //     // Turning is controlled by the X axis of the right stick.
-    //     new RunCommand(
-    //         () -> m_robotDrive.drive(
-    //             MathUtil.applyDeadband(-m_opperatorController.getRawAxis(1), 0.06),
-    //             MathUtil.applyDeadband(-m_opperatorController.getRawAxis(0), 0.06),
-    //             MathUtil.applyDeadband(-m_opperatorController.getRawAxis(2), 0.06),
-    //             false),
-    //         m_robotDrive));
+    
+    /** Robot oriented controlls on opperator stick to be used for driving with camera,
+    precision manoevering with camera and in case of gyro malfunction. */
+    new RunCommand(
+        () ->         
+        m_robotDrive.drive(
+        MathUtil.applyDeadband(-m_opperatorController.getRawAxis(1), 0.06),
+        MathUtil.applyDeadband(-m_opperatorController.getRawAxis(0), 0.06),
+        MathUtil.applyDeadband(-m_opperatorController.getRawAxis(2), 0.06),
+        false), m_robotDrive);
   }
 
   
